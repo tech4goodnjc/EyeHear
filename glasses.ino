@@ -4,6 +4,8 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiManager.h>
 
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -18,16 +20,16 @@ void setup() {
  
   }
   Serial.println("Connected to WiFi Network");
-  OLED.begin();
-  OLED.clearDisplay();
+  display.begin();
+  display.clearDisplay();
 
   //Add stuff into the 'display buffer'
-  OLED.setTextWrap(false);
-  OLED.setTextSize(2);
-  OLED.setTextColor(WHITE);
-  OLED.setCursor(0,0);
-  OLED.println("Welcome");
-  OLED.display(); //output 'display buffer' to screen
+  display.setTextWrap(false);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println("Welcome");
+  display.display(); //output 'display buffer' to screen
 }
 
 void loop() {
@@ -44,10 +46,11 @@ void loop() {
  
       String payload = http.getString();   //Get the request response payload
       Serial.println(payload);
-      OLED.println(payload); //Display the response payload
-      OLED.display();
+      display.println(payload); //Display the response payload
+      display.display();
  
-    }else Serial.println("An error ocurred");
+    }
+    else {Serial.println("An error ocurred");}
  
     http.end();   //Close connection
  
