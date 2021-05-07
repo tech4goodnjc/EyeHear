@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+  </head>
+  <body>
+<button id="stop">Stop</button>
+<script>
+  let shouldStop = false;
+  let stopped = false;
+  const stopButton = document.getElementById('stop');
+
+  stopButton.addEventListener('click', function() {
+    shouldStop = true;
+  });
+
+  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(function(stream) {
+    console.log("here");
+    const options = {mimeType: 'audio/webm'};
+    const recordedChunks = [];
+    const mediaRecorder = new MediaRecorder(stream, options);
+
+    mediaRecorder.ondataavailable = function(e) {
+      console.log("recording");
+      if (e.data.size > 0) {
+        recordedChunks.push(e.data);
+      }
+
+      if(shouldStop === true && stopped === false) {
+        mediaRecorder.stop();
+        stopped = true;
+      }
+    };
+
+    mediaRecorder.onstop = function() {
+      var req = new XMLHttpRequest();
+      var data = new FormData();
+      var blob = new Blob(recordedChunks);
+      data.append('speech', blob, 'speech.wav');
+      req.open('POST', '/recvaudio', true);
+      req.send(data);
+    };
+
+    mediaRecorder.start(10000);
+  })
+  .catch(function(err) {
+  console.log(err.message);
+});
+
+</script>
+
+  </body>
+</html>

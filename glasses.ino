@@ -40,7 +40,7 @@ void loop() {
  
     int httpCode = http.GET(); //Send the request
  
-    if (httpCode > 0) { //Check the returning code
+    if (httpCode == 200) { //Check the returning code
  
       String payload = http.getString();   //Get the request response payload
       Serial.println(payload);

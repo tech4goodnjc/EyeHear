@@ -1,6 +1,7 @@
 import speech_recognition as sr
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
+curr = ""
 # converts audio to text
 def speech_to_text(speech):
     r = sr.Recognizer()
@@ -12,9 +13,6 @@ def speech_to_text(speech):
         writetext = r.recognize_google(audio_data)
     return writetext
 
-#receives audio from microphone
-def recv_audio():
-  pass
 
 app = Flask(__name__)
 
@@ -22,14 +20,18 @@ app = Flask(__name__)
 def home():
   return render_template("index.html")
 
-@app.route("/audio")
+@app.route("/recvaudio", methods=["POST"])
 #sends audio to glasses
-def send_audio_to_esp():
+def recv_audio():
   try:
-    audio = recv_audio()
+    audio = request.files["speech"]
     text = speech_to_text(audio)
-    return text
+    curr = text
+    return redirect(url_for("sendaudio"))
   except:
     return "A translation error has occurred"
 
+@app.route("/sendaudio", methods=["GET"])
+def send_audio():
+  return text
 app.run()
