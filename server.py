@@ -33,5 +33,6 @@ def recv_audio():
 
 @app.route("/sendaudio", methods=["GET"])
 def send_audio():
-  return text
+  return curr
+ 
 app.run()
