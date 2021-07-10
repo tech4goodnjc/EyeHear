@@ -14,10 +14,7 @@ def speech_to_text(speech):
 
 # Retrieves the corresponding device_id for the phone_id provided
 def phoneid_to_glassid(phone_id):
-  conn = sqlite3.connect("database.db")
-  cur = conn.execute("SELECT device_id FROM mapping WHERE phone_id = ?",(phone_id,))
-  rows = cur.fetchall()
-  return rows[0][0]
+    pass
 
 app = Flask(__name__)
 
