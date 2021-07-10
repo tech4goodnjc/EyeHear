@@ -12,14 +12,12 @@ def speech_to_text(speech):
         writetext = r.recognize_google(audio_data)
     return writetext
 
-def open_DB(db):
-    connection = sqlite3.connect(db)
-    connection.row_factory = sqlite3.Row
-    return connection
-
-def phone_to_glass():
-# Retrieve from db
-  pass
+# Retrieves the corresponding device_id for the phone_id provided
+def phoneid_to_glassid(phone_id):
+  conn = sqlite3.connect("database.db")
+  cur = conn.execute("SELECT device_id FROM mapping WHERE phone_id = ?",(phone_id,))
+  rows = cur.fetchall()
+  return rows[0][0]
 
 app = Flask(__name__)
 
