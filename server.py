@@ -12,6 +12,11 @@ def speech_to_text(speech):
         writetext = r.recognize_google(audio_data)
     return writetext
 
+def open_DB(db):
+    connection = sqlite3.connect(db)
+    connection.row_factory = sqlite3.Row
+    return connection
+
 def phone_to_glass():
 # Retrieve from db
   pass
