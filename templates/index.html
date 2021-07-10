@@ -40,7 +40,7 @@
       var data = new FormData();
       var blob = new Blob(recordedChunks);
       data.append('speech', blob, 'speech.wav');
-      req.open('POST', '/recvaudio', true);
+      req.open('POST', 'http://c45701f7d791.ngrok.io/recvaudio', true);
       req.send(data);
     };
 
