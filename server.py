@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
 
 # converts audio to text
 def speech_to_text(speech):
@@ -14,7 +15,10 @@ def speech_to_text(speech):
 
 # Retrieves the corresponding device_id for the phone_id provided
 def phoneid_to_glassid(phone_id):
-    pass
+  conn = sqlite3.connect("database.db")
+  cur = conn.execute("SELECT device_id FROM mapping WHERE phone_id = ?",(phone_id,))
+  rows = cur.fetchall()
+  return rows[0][0]
 
 app = Flask(__name__)
 
