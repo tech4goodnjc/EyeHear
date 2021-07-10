@@ -1,11 +1,7 @@
 # eyehearv1
 
 ## Python
-- phone_to_glasses, retrieve from db
-- Hash the ids
-
-## SQL
-- Create DB with following table: Mapping
+- figure out how we are going to assign each phone and device with an ID
 
 ## C++
 - Add code to map glasses to phone when connecting -> Add to DB
