@@ -4,14 +4,15 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiManager.h>
 
-Adafruit_SSD1306 display(128, 64, &Wire, -1);
+Adafruit_SSD1306 display(128, 64, &Wire, -1); // initialise display
+String product_key = "" // hardcode product key
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   WiFiManager wifiManager;
   wifiManager.resetSettings();
-  wifiManager.autoConnect("AP-NAME", "AP-PASSWORD");
+  wifiManager.autoConnect("AP-NAME", "AP-PASSWORD"); // connect to WiFi
  
   while (WiFi.status() != WL_CONNECTED) {
  
@@ -23,31 +24,32 @@ void setup() {
   display.begin();
   display.clearDisplay();
 
-  //Add stuff into the 'display buffer'
+  // display Welcome text
   display.setTextWrap(false);
   display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
   display.println("Welcome");
-  display.display(); //output 'display buffer' to screen
+  display.display(); // output 'display buffer' to screen
 }
 
 void loop() {
  
-  if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
+  if (WiFi.status() == WL_CONNECTED) { // Check WiFi connection status
  
-    HTTPClient http;  //Declare an object of class HTTPClient
+    HTTPClient http;  // Declare an object of class HTTPClient
  
-    http.begin(""); //Specify request destination
+    String url = "url/sendaudio/" + product_key
+    http.begin(url); // Specify request destination
  
-    int httpCode = http.GET(); //Send the request
+    int httpCode = http.GET(); // Send the GET request
  
-    if (httpCode == 200) { //Check the returning code
+    if (httpCode == 200) { // Check the GET request's status code
  
-      String payload = http.getString();   //Get the request response payload
+      String payload = http.getString();   // Get the translated text from the server
       Serial.println(payload);
-      display.println(payload); //Display the response payload
-      display.display();
+      display.println(payload); // Flash the translated text on the display
+      display.display(); // Render the display
  
     }
     else {Serial.println("An error ocurred");}
@@ -56,6 +58,6 @@ void loop() {
  
   }
  
-  delay(2000);    //Send a request every 2 seconds
+  delay(2000);    // Send a request every 2 seconds
  
 }
