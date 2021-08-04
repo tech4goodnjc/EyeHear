@@ -39,7 +39,7 @@ void loop() {
  
     HTTPClient http;  // Declare an object of class HTTPClient
  
-    String url = "www.njc-t4g-project.com/sendaudio/" + product_key
+    String url = "https://www.njc-t4g-project.com/sendaudio/" + product_key
     http.begin(url); // Specify request destination
  
     int httpCode = http.GET(); // Send the GET request
