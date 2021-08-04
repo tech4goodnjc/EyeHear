@@ -5,7 +5,7 @@
 #include <WiFiManager.h>
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1); // initialise display
-String product_key = "" // hardcode product key
+String product_key = "hello" // hardcode product key
 
 void setup() {
   // put your setup code here, to run once:
@@ -39,7 +39,7 @@ void loop() {
  
     HTTPClient http;  // Declare an object of class HTTPClient
  
-    String url = "url/sendaudio/" + product_key
+    String url = "www.njc-t4g-project.com/sendaudio/" + product_key
     http.begin(url); // Specify request destination
  
     int httpCode = http.GET(); // Send the GET request
