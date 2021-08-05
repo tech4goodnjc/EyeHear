@@ -103,14 +103,17 @@ def recv_audio():
       text = speech_to_text(audio)
       productkey = current_user.productkey
       server_cache[productkey] = text
-      return redirect("/recordaudio")
-    except:
-      return "A translation error has occurred"
+      return "Translated"
+    except Exception as e:
+      return str(e)
 
 # ESP will GET the translation from this function
 @app.route("/sendaudio/<productkey>", methods=["GET"])
 def send_audio(productkey):
-  return server_cache[productkey]
+    try:
+        return server_cache[productkey]
+    except:
+        return "Connecting..."
 
 #logout user
 @app.route("/logout")
