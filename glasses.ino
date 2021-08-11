@@ -4,8 +4,8 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiManager.h>
 
+const char* fingerprint = "F8 AA C2 47 B7 60 43 51 6B 0C 49 B5 E0 A2 AB 79 A3 C5 40 3D";
 Adafruit_SSD1306 display(128, 64, &Wire, -1); // initialise display
-String product_key = "hello" // hardcode product key
 
 void setup() {
   // put your setup code here, to run once:
@@ -36,25 +36,37 @@ void setup() {
 void loop() {
  
   if (WiFi.status() == WL_CONNECTED) { // Check WiFi connection status
- 
+
+    
     HTTPClient http;  // Declare an object of class HTTPClient
- 
-    String url = "https://www.njc-t4g-project.com/sendaudio/" + product_key
-    http.begin(url); // Specify request destination
- 
-    int httpCode = http.GET(); // Send the GET request
- 
-    if (httpCode == 200) { // Check the GET request's status code
- 
-      String payload = http.getString();   // Get the translated text from the server
-      Serial.println(payload);
-      display.println(payload); // Flash the translated text on the display
-      display.display(); // Render the display
- 
+    WiFiClientSecure wifi; // Declare an object of class WiFiClientSecure
+    const char* url = "https://www.njc-t4g-project.com/sendaudio/testing123";
+
+    wifi.connect(url, 443);
+
+    if (wifi.verify(fingerprint, url)){
+    
+      http.begin(wifi, url); // Specify request destination
+   
+      int httpCode = http.GET(); // Send the GET request
+  
+      Serial.println(httpCode);
+      
+      if (httpCode == 200) { // Check the GET request's status code
+   
+        String payload = http.getString();   // Get the translated text from the server
+        Serial.println(payload);
+        display.println(payload); // Flash the translated text on the display
+        display.display(); // Render the display
+   
+      }
+      else {Serial.println("An error ocurred");}
+   
+      http.end();   //Close connection
     }
-    else {Serial.println("An error ocurred");}
- 
-    http.end();   //Close connection
+    else{
+      Serial.println("Could not verify cert");
+    }
  
   }
  
