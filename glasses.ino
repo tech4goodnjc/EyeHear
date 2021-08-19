@@ -40,7 +40,7 @@ void loop() {
     
     HTTPClient http;  // Declare an object of class HTTPClient
     WiFiClientSecure wifi; // Declare an object of class WiFiClientSecure
-    const char* url = "https://www.njc-t4g-project.com/sendaudio/testing123";
+    const char* url = "www.njc-t4g-project.com/sendaudio/testing123";
 
     wifi.connect(url, 443);
 
