@@ -43,7 +43,7 @@ void loop() {
     const char* url = "www.njc-t4g-project.com/sendaudio/testing123";
 
     wifi.connect(url, 443);
-
+    // possible error is from lines 47-62
     if (wifi.verify(fingerprint, url)){
     
       http.begin(wifi, url); // Specify request destination
