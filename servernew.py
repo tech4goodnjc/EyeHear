@@ -90,7 +90,7 @@ def register():
             db.session.commit()
             return redirect("/login")
     return render_template("register.html", error=error)
-
+# suspected error is from lines 94-117
 # receive audio from record_audio() and store it locally temporarily
 # need to test this once on cloud
 @app.route("/recvaudio", methods=["POST"])
